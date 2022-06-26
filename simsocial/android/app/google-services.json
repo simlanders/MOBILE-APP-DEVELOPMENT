@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "900675515630",
+    "project_id": "sim-social",
+    "storage_bucket": "sim-social.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900675515630:android:1b7ff09252ab6e7e30afff",
+        "android_client_info": {
+          "package_name": "com.example.simsocial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900675515630-hm7o85aabc9vkc73dn7qkfool289hb9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc4AEP50RIiIlOelCxUcdRWDX1veNLt2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900675515630-hm7o85aabc9vkc73dn7qkfool289hb9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
