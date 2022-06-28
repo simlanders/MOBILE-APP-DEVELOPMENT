@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:simsocial/widgets/Loading.dart';
+
 
 import 'widgets/Loading.dart';
 import 'pages/Authentication.dart';
 
 void main() {
+  final  _init_firebase = Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(simsocial());
 }
@@ -42,7 +43,7 @@ class simsocial extends StatelessWidget {
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return  Loading();
             }
-            return const Authentication();
+            return Authentication();
           },
         ),
       ),
