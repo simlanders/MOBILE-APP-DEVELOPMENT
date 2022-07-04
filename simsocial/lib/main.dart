@@ -1,20 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-
 import 'widgets/Loading.dart';
 import 'pages/Authentication.dart';
 
 void main() {
-  final  _init_firebase = Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(simsocial());
 }
 
-
 class simsocial extends StatelessWidget {
   simsocial({Key? key}) : super(key: key);
-  Future<FirebaseApp> _initFirebase = Firebase.initializeApp();
+  final Future<FirebaseApp> _initFirebase = Firebase.initializeApp();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -35,14 +32,15 @@ class simsocial extends StatelessWidget {
       home: Scaffold(
         body: FutureBuilder(
           initialData: _initFirebase,
+          future: _initFirebase,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) {
               return Center(
-                child: Text("Ooops an Error has Happened"),
+                child: Text("Ooops an Error has Happened "+snapshot.error.toString()),
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return  Loading();
-            }
+              return Loading();
+            } 
             return Authentication();
           },
         ),
