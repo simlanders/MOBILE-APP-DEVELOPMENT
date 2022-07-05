@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/Loading.dart';
+import '../Firebase_Back_in/database.dart';
 
 class information extends StatefulWidget {
   information({Key? key}) : super(key: key);
@@ -12,13 +13,15 @@ class information extends StatefulWidget {
 }
 
 class Information extends State<information> {
+  final dbService = new DatabaseService();
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
   bool loading = false;
   TextEditingController _first = TextEditingController();
   TextEditingController _last = TextEditingController();
   TextEditingController _bio = TextEditingController();
+  TextEditingController _display_name = TextEditingController();
   String info = "";
 
   @override
@@ -41,6 +44,7 @@ class Information extends State<information> {
                       "Plase edit your profile information here " + info,
                       style: TextStyle(fontSize: 30, color: Colors.blue),
                     ),
+
                     /**First name */
                     TextFormField(
                       controller: _first,
@@ -56,6 +60,7 @@ class Information extends State<information> {
                         return null;
                       },
                     ),
+
                     /**last name */
                     TextFormField(
                       controller: _last,
@@ -66,14 +71,15 @@ class Information extends State<information> {
                               TextStyle(fontSize: 20, color: Colors.black)),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "PassWord can not be empty";
+                          return "name can not be empty";
                         }
-                        if (value.length < 7) {
-                          return "Password too Short ";
+                        if (value.length < 1) {
+                          return "name too Short ";
                         }
                         return null;
                       },
                     ),
+
                     /**Bio name */
                     TextFormField(
                       controller: _bio,
@@ -92,11 +98,37 @@ class Information extends State<information> {
                         return null;
                       },
                     ),
+
+                    /**Display name */
+                    TextFormField(
+                      controller: _display_name,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                          labelText: "Display Name",
+                          labelStyle:
+                              TextStyle(fontSize: 20, color: Colors.black)),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Display name can not be empty";
+                        }
+                        if (value.length < 2) {
+                          return "Display name too Short ";
+                        }
+                        return null;
+                      },
+                    ),
+
                     /**Submit Button */
                     OutlinedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            log_in();
+                            dbService.setUser(
+                                _auth.currentUser!.uid,
+                                _display_name.text,
+                                _auth.currentUser!.email,
+                                _first.text,
+                                _last.text,
+                                _bio.text);
                           }
                         },
                         child: Text("Submit")),
@@ -106,33 +138,16 @@ class Information extends State<information> {
 
   Future<void> log_in() async {
     try {
-      final data = {
-        "first_name": _first,
-        "last_name": _last,
-        "user_role": "custumer",
-        "bio": _bio,
-      };
-      db
-          .collection("Users")
-          .doc(_auth.currentUser?.uid)
-          .collection("Personal Information")
-          .doc("Profile Information")
-          .set(data, SetOptions(merge: true))
-          .onError((e, _) => setState(() {
-                loading = false;
-                this.info = e.toString();
-              }));
-
-      // var registerResponse = await _auth.currentUser.;
-
-      //var user_name = _auth.currentUser!.displayName;
-
+      await dbService.setUser(_auth.currentUser!.uid, _display_name.text,
+          _auth.currentUser!.email, _first.text, _last.text, _bio.text);
       setState(() {
         loading = false;
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("All Good  "),
         ));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => information()));
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
