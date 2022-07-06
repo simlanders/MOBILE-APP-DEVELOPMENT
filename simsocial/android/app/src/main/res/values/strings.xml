@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string name="facebook_app_id">1147832699115019</string>
+
+        <string name="facebook_client_token">483aeb04b7e3b4195ac3f8f5cb6092bc</string>
+
+        <string name="app_name">simsocial</string>
+
+        <string name="fb_login_protocol_scheme">fb1147832699115019</string>
+    </resources>

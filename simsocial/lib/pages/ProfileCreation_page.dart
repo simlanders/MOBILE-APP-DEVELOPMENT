@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:simsocial/pages/Homefeed_page.dart';
 
 import '../widgets/Loading.dart';
 import '../Firebase_Back_in/database.dart';
@@ -9,10 +10,10 @@ import '../Firebase_Back_in/database.dart';
 class information extends StatefulWidget {
   information({Key? key}) : super(key: key);
 
-  State<information> createState() => Information();
+  State<information> createState() => ProfileCreation_page();
 }
 
-class Information extends State<information> {
+class ProfileCreation_page extends State<information> {
   final dbService = new DatabaseService();
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -40,8 +41,9 @@ class Information extends State<information> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    //Welcome text
                     Text(
-                      "Plase edit your profile information here " + info,
+                      "Plase edit your profile information here ",
                       style: TextStyle(fontSize: 30, color: Colors.blue),
                     ),
 
@@ -119,16 +121,30 @@ class Information extends State<information> {
                     ),
 
                     /**Submit Button */
+                    //This button will send all user information too the 
+                    //Firebase database via "Authentication.dart"
                     OutlinedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            dbService.setUser(
-                                _auth.currentUser!.uid,
-                                _display_name.text,
-                                _auth.currentUser!.email,
-                                _first.text,
-                                _last.text,
-                                _bio.text);
+                            dbService
+                                .setUser(
+                                    _auth.currentUser!.uid,
+                                    _display_name.text,
+                                    _auth.currentUser!.email,
+                                    _first.text,
+                                    _last.text,
+                                    _bio.text
+                                    )
+                                    .whenComplete(() 
+                                    => _auth.currentUser!
+                                    .sendEmailVerification()
+                                    )
+                                    .whenComplete(() 
+                                    =>Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeFeed()))
+                                     );
                           }
                         },
                         child: Text("Submit")),
@@ -136,23 +152,5 @@ class Information extends State<information> {
                 )));
   }
 
-  Future<void> log_in() async {
-    try {
-      await dbService.setUser(_auth.currentUser!.uid, _display_name.text,
-          _auth.currentUser!.email, _first.text, _last.text, _bio.text);
-      setState(() {
-        loading = false;
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("All Good  "),
-        ));
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => information()));
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-      ));
-    }
-  }
 }

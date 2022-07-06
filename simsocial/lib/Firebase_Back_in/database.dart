@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simsocial/objects/Post_blueprint.dart';
 import 'package:simsocial/objects/User_blueprint.dart';
 
-
 class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -22,6 +21,7 @@ class DatabaseService {
   }
 
   Stream<Map<String, User_blueprint>> get users => _usersController.stream;
+
   Stream<List<Post_blueprint>> get posts => _postsController.stream;
 
   void _usersUpdated(QuerySnapshot<Map<String, dynamic>> snapshot) {
@@ -36,9 +36,9 @@ class DatabaseService {
 
   Map<String, User_blueprint> _getUsersFromSnapshot(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
-        for (var element in snapshot.docs) {
-          User_blueprint user = User_blueprint.fromMap(element.id, element.data());
-            userMap[user.id] = user;
+    for (var element in snapshot.docs) {
+      User_blueprint user = User_blueprint.fromMap(element.id, element.data());
+      userMap[user.id] = user;
     }
 
     return userMap;
@@ -60,29 +60,30 @@ class DatabaseService {
     return User_blueprint.fromMap(snapshot.id, (snapshot.data()!));
   }
 
+//This method adds a new user to the Firebase Collection 'users' then
+//returns control back to the program who called it. 
   Future<void> setUser(
     String uid, 
-    String display_name,
+    String display_name, 
     String? email,
-    String first_name,
-    String last_name,
+    String first_name, 
+    String last_name, 
     String bio
-    ) async {
+     )async {
     await _firestore.collection("users").doc(uid).set({
-        "display_name": display_name,
-        "first_name": first_name,
-        "last_name": last_name,
-        "user_role": "Custumer",
-        "bio": bio,
-        "created": DateTime.now()
+      "display_name": display_name,
+      "first_name": first_name,
+      "last_name": last_name,
+      "user_role": "customer",
+      "bio": bio,
+      "created": DateTime.now(),
+      "id": uid,
     });
     return;
   }
 
   Future<void> addPost(String uid, String message) async {
-    await _firestore.collection("posts").add({
-        
-    });
+    await _firestore.collection("posts").add({});
     return;
   }
 }

@@ -8,7 +8,7 @@ class User_blueprint {
   final String last_name;
 
   //The role of the user;
-  final String user_role = "Custumer";
+  final String user_role;
 
   //User created bio
   final String bio;
@@ -16,11 +16,11 @@ class User_blueprint {
   //Display name of user
   final String display_name;
 
+  //This value holds the date the user signed in and created a Profile.
+  final String created;
+
   //User ID
   final String id;
-
-  //This is the current date and time when the user created the account
-  final DateTime timestamp = DateTime.now();
 
 //constructor
   User_blueprint({
@@ -28,16 +28,20 @@ class User_blueprint {
     required this.first_name,
     required this.last_name,
     required this.bio,
+    required this.created,
+    required this.user_role,
     required this.id,
   });
 
   factory User_blueprint.fromMap(String id, Map<String, dynamic> data) {
     return User_blueprint(
       display_name: data['display_name'],
-      first_name: data['first_name'],
-      last_name: data['last_name'],
-      bio: data['bio'],
-      id: data['id']
+      first_name:   data['first_name'],
+      last_name:    data['last_name'],
+      bio:          data['bio'],
+      user_role:    data['user_role'],
+      created:      data['created'],
+      id:           data['id']
     );
   }
 
@@ -47,6 +51,7 @@ class User_blueprint {
         "last_name": last_name,
         "user_role": user_role,
         "bio": bio,
-        "created": DateTime.now()
+        "created": created,
+        "id":id,
       };
 }

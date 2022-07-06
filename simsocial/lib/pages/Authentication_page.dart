@@ -1,23 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:simsocial/pages/Information.dart';
-
-
+import 'ProfileCreation_page.dart';
 
 import '../widgets/Loading.dart';
+import 'Homefeed_page.dart';
+import '../Firebase_Back_in/Authentication.dart';
 
+class Authentication_page extends StatefulWidget {
+  Authentication_page({Key? key}) : super(key: key);
 
-
-class Authentication extends StatefulWidget {
-  Authentication({Key? key}) : super(key: key);
-
-  State<Authentication> createState() => _AuthState();
+  State<Authentication_page> createState() => _Auth_PageState();
 }
 
-class _AuthState extends State<Authentication> {
+class _Auth_PageState extends State<Authentication_page> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _authService = new AuthenticationService();
+
   bool loading = false;
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
@@ -37,6 +37,14 @@ class _AuthState extends State<Authentication> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      "Please enter your Email, Password" +
+                          "\n" +
+                          "and" +
+                          "\n" +
+                          "SIGN-UP or SIGN-IN ",
+                      style: TextStyle(fontSize: 30, color: Colors.greenAccent),
+                    ),
                     TextFormField(
                       controller: _email,
                       decoration: InputDecoration(
@@ -73,47 +81,33 @@ class _AuthState extends State<Authentication> {
                     OutlinedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            log_in();
+                            _authService.Sign_in(
+                                    _email.text, _password.text, context)
+                                .whenComplete(() => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeFeed())));
                           }
                         },
                         child: Text("LOGIN")),
                     OutlinedButton(
                         onPressed: () {
-                          //register();
+                          _authService.Sign_up(
+                                  _email.text, _password.text, context)
+                              .whenComplete(() => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => information())));
                         },
                         child: Text("REGISTER")),
                     OutlinedButton(
                         onPressed: () {}, child: Text("FORGOT PASSWORD")),
+                    OutlinedButton(
+                        onPressed: () {
+                          _authService.signInWithFacebook();
+                        },
+                        child: Text("FaceBook Sign In")),
                   ],
                 )));
   }
-   
-  Future<void> log_in() async {
-    
-      try {
-        var registerResponse = await _auth.signInWithEmailAndPassword(
-            email: _email.text, password: _password.text);
-      
-        var user_id = _auth.currentUser!.uid;
-
-        setState(() {
-          loading = false;
-
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Welcome Back---->  "+ user_id),
-          ));
-           Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => information()),
-  );
-
-        });
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(e.toString()),
-        ));
-        
-      }
-    }
-  
 }

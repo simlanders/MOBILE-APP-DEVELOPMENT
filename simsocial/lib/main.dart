@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:simsocial/pages/Authentication_page.dart';
 
 import 'widgets/Loading.dart';
-import 'pages/Authentication.dart';
+import 'Firebase_Back_in/Authentication.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +42,7 @@ class simsocial extends StatelessWidget {
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Loading();
             } 
-            return Authentication();
+            return Authentication_page();
           },
         ),
       ),
