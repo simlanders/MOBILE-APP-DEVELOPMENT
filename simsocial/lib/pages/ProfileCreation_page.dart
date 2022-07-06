@@ -122,7 +122,7 @@ class ProfileCreation_page extends State<information> {
 
                     /**Submit Button */
                     //This button will send all user information too the 
-                    //Firebase database via "Authentication.dart"
+                    //Firebase database via "database.dart"
                     OutlinedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {

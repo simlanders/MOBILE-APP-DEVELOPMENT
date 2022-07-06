@@ -35,5 +35,6 @@ class AuthenticationService {
 
     // Once signed in, return the UserCredential
     return _auth.signInWithCredential(facebookAuthCredential);
+    
   }
 }

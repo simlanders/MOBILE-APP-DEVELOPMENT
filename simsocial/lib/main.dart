@@ -7,13 +7,22 @@ import 'Firebase_Back_in/Authentication.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(simsocial());
 }
 
 class simsocial extends StatelessWidget {
   simsocial({Key? key}) : super(key: key);
-  final Future<FirebaseApp> _initFirebase = Firebase.initializeApp();
+  final Future<FirebaseApp> _initFirebase = Firebase.initializeApp(options: FirebaseOptions(
+    apiKey: "AIzaSyBl4y2j0n4qJaKBnD0wE0fybcQo6btgWBE",
+    authDomain: "sim-social.firebaseapp.com",
+    projectId: "sim-social",
+    storageBucket: "sim-social.appspot.com",
+    messagingSenderId: "900675515630",
+    appId: "1:900675515630:web:408d6715f62c79b930afff",
+    measurementId: "G-DFG1N465NS"),);
   // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
