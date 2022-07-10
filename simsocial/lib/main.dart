@@ -1,43 +1,36 @@
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:simsocial/pages/Authentication_page.dart';
-
-import 'widgets/Loading.dart';
-import 'Firebase_Back_in/Authentication.dart';
+import 'package:simsocial/pages/SplashScreen.dart';
+import 'package:simsocial/widgets/Loading.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   runApp(simsocial());
 }
 
 class simsocial extends StatelessWidget {
   simsocial({Key? key}) : super(key: key);
-  final Future<FirebaseApp> _initFirebase = Firebase.initializeApp(options: FirebaseOptions(
-    apiKey: "AIzaSyBl4y2j0n4qJaKBnD0wE0fybcQo6btgWBE",
-    authDomain: "sim-social.firebaseapp.com",
-    projectId: "sim-social",
-    storageBucket: "sim-social.appspot.com",
-    messagingSenderId: "900675515630",
-    appId: "1:900675515630:web:408d6715f62c79b930afff",
-    measurementId: "G-DFG1N465NS"),);
+
+  final Future<FirebaseApp> _initFirebase = Firebase.initializeApp(
+    options: FirebaseOptions(
+        apiKey: "AIzaSyBl4y2j0n4qJaKBnD0wE0fybcQo6btgWBE",
+        authDomain: "sim-social.firebaseapp.com",
+        projectId: "sim-social",
+        storageBucket: "sim-social.appspot.com",
+        messagingSenderId: "900675515630",
+        appId: "1:900675515630:web:408d6715f62c79b930afff",
+        measurementId: "G-DFG1N465NS"),
+  );
   // This widget is the root of your application.
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
       home: Scaffold(
         body: FutureBuilder(
@@ -45,13 +38,20 @@ class simsocial extends StatelessWidget {
           future: _initFirebase,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) {
+              if (snapshot.error.toString() ==
+                  '[core/duplicate-app] A Firebase App named "[DEFAULT]" already exists') {
+                return SplashScreen();
+              }
               return Center(
-                child: Text("Ooops an Error has Happened "+snapshot.error.toString()),
+                child: Text(
+                    "Ooops an Error has Happened " + snapshot.error.toString()),
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
+            }
+            if (snapshot.connectionState != ConnectionState.waiting) {
               return Loading();
-            } 
-            return Authentication_page();
+            }
+            final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+            return SplashScreen();
           },
         ),
       ),

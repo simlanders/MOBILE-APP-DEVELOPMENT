@@ -7,13 +7,13 @@ import '../widgets/Loading.dart';
 import 'Homefeed_page.dart';
 import '../Firebase_Back_in/Authentication.dart';
 
-class Authentication_page extends StatefulWidget {
-  Authentication_page({Key? key}) : super(key: key);
+class EmailAuthentication_page extends StatefulWidget {
+  EmailAuthentication_page({Key? key}) : super(key: key);
 
-  State<Authentication_page> createState() => _Auth_PageState();
+  State<EmailAuthentication_page> createState() => _Auth_PageState();
 }
 
-class _Auth_PageState extends State<Authentication_page> {
+class _Auth_PageState extends State<EmailAuthentication_page> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _authService = new AuthenticationService();
@@ -38,13 +38,10 @@ class _Auth_PageState extends State<Authentication_page> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Please enter your Email, Password" +
-                          "\n" +
-                          "and" +
-                          "\n" +
-                          "SIGN-UP or SIGN-IN ",
+                      "Please enter your Email and Password to sign in ",
                       style: TextStyle(fontSize: 30, color: Colors.greenAccent),
                     ),
+                    
                     TextFormField(
                       controller: _email,
                       decoration: InputDecoration(
@@ -86,28 +83,14 @@ class _Auth_PageState extends State<Authentication_page> {
                                 .whenComplete(() => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeFeed())));
+                                        builder: (context) => HomeFeed()
+                                        )
+                                        )
+                                        );
                           }
                         },
                         child: Text("LOGIN")),
-                    OutlinedButton(
-                        onPressed: () {
-                          _authService.Sign_up(
-                                  _email.text, _password.text, context)
-                              .whenComplete(() => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => information())));
-                        },
-                        child: Text("REGISTER")),
-                    OutlinedButton(
-                        onPressed: () {}, child: Text("FORGOT PASSWORD")),
-                    OutlinedButton(
-                        onPressed: () {
-                          _authService.signInWithFacebook();
-                        },
-                        child: Text("FaceBook Sign In")),
-                  ],
+                   ],
                 )));
   }
 }

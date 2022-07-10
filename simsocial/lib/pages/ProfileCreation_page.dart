@@ -7,13 +7,13 @@ import 'package:simsocial/pages/Homefeed_page.dart';
 import '../widgets/Loading.dart';
 import '../Firebase_Back_in/database.dart';
 
-class information extends StatefulWidget {
-  information({Key? key}) : super(key: key);
+class ProfileCreationPage extends StatefulWidget {
+  ProfileCreationPage({Key? key}) : super(key: key);
 
-  State<information> createState() => ProfileCreation_page();
+  State<ProfileCreationPage> createState() => ProfileCreationState();
 }
 
-class ProfileCreation_page extends State<information> {
+class ProfileCreationState extends State<ProfileCreationPage> {
   final dbService = new DatabaseService();
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -138,7 +138,8 @@ class ProfileCreation_page extends State<information> {
                                     .whenComplete(() 
                                     => _auth.currentUser!
                                     .sendEmailVerification()
-                                    )
+                                    ).whenComplete(() => 
+                                    _auth.currentUser!.updateDisplayName(_display_name.text))
                                     .whenComplete(() 
                                     =>Navigator.push(
                                     context,
