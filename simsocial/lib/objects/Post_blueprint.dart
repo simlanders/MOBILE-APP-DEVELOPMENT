@@ -28,6 +28,9 @@ class Post_blueprint {
   // This is the  ID given to each post
   final String post_ID;
 
+  final String creator;
+  final String created;
+
 //constructor
   Post_blueprint({
     required this.post_ID,
@@ -37,21 +40,27 @@ class Post_blueprint {
     required this.likes,
     required this.dislikes,
     required this.comments,
+    required this.creator,
+    required this.created,
   });
 
-  factory Post_blueprint.fromMap(String id, Map<String, dynamic> data) {
-    return Post_blueprint(
-      post_ID: id,
-      display_name: data['display_name'],
-      post: data['post'],
-      shared_from: data['shared_from'],
-      likes: data['likes'],
-      dislikes: data['dislikes'],
-      comments: data['comments'],
-    );
-  }
+  
 
-  Map<String, dynamic> toJson() => {
+   factory Post_blueprint.fromMap(String id, Map<String, dynamic> data) {
+    return Post_blueprint(
+        post_ID: id,
+        display_name: data['display_name'],
+        post: data['post'],
+        shared_from: data['shared_from'],
+        likes: data['likes'],
+        dislikes: data['dislikes'],
+        comments: data['comments'],
+        creator: data['creator'],
+        created: data['created'],
+      );
+    } 
+
+       Map<String, dynamic> toJson() => {
         'post_ID': post_ID,
         'display_name': display_name,
         
@@ -60,5 +69,9 @@ class Post_blueprint {
         'likes': likes,
         'dislikes': dislikes,
         'comments': comments,
+        'creator':creator,
+        'created': created,
       };
+  
+ 
 }

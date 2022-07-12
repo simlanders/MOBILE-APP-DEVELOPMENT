@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "900675515630",
+    "firebase_url": "https://sim-social-default-rtdb.firebaseio.com",
     "project_id": "sim-social",
     "storage_bucket": "sim-social.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "900675515630-hm7o85aabc9vkc73dn7qkfool289hb9b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "900675515630-k223hgn3i0c1tqrkb0qk19csp3uufb76.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.simsocial"
+              }
             }
           ]
         }

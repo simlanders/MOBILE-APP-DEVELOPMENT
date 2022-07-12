@@ -17,8 +17,11 @@ class SignUpSelector extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton(
-                onPressed: () {
-                  UserCreation();
+                onPressed: () {Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserCreation()));
+                  
                 },
                 child: Text("SIGN UP WITH EMAIL"),
                 style: ButtonStyle(

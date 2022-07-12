@@ -40,6 +40,7 @@ class simsocial extends StatelessWidget {
             if (snapshot.hasError) {
               if (snapshot.error.toString() ==
                   '[core/duplicate-app] A Firebase App named "[DEFAULT]" already exists') {
+                final FirebaseFirestore _firestore = FirebaseFirestore.instance;
                 return SplashScreen();
               }
               return Center(
@@ -48,10 +49,11 @@ class simsocial extends StatelessWidget {
               );
             }
             if (snapshot.connectionState != ConnectionState.waiting) {
-              return Loading();
+              final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+              return SplashScreen();
             }
-            final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-            return SplashScreen();
+            
+            return Loading();
           },
         ),
       ),

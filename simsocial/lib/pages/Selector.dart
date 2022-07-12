@@ -35,7 +35,10 @@ class Selector extends StatelessWidget {
             //Sends you to the SignUpSelector() page to sign up with email or facebook
             OutlinedButton(
                 onPressed: () {
-                  SignUpSelector();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignUpSelector()));
                 },
                 child: Text("SIGN UP"),
                 style: ButtonStyle(

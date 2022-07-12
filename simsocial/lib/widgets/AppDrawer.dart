@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:simsocial/pages/Homefeed_page.dart';
+import 'package:simsocial/pages/Profile.dart';
+
+import '../pages/DM.dart';
 
 class AppDrawer extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -20,7 +26,7 @@ class AppDrawer extends StatelessWidget {
             ),
             title: const Text('PROFILE'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> Profile(user_id: _auth.currentUser!.uid)));
             },
           ),
           ListTile(
@@ -29,7 +35,8 @@ class AppDrawer extends StatelessWidget {
             ),
             title: const Text('FEED'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeFeed()));
+            
             },
           ),
           ListTile(
@@ -38,7 +45,7 @@ class AppDrawer extends StatelessWidget {
             ),
             title: const Text('DM'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> DM()));
             },
           ),
         ],
