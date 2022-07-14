@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:simsocial/pages/Selector.dart';
 
@@ -14,6 +15,7 @@ class _MySplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     Timer(
         Duration(seconds: 5),
         () => Navigator.pushReplacement(context,

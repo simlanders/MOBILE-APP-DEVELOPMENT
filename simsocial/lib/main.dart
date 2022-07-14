@@ -30,7 +30,7 @@ class simsocial extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        primarySwatch: Colors.red,
       ),
       home: Scaffold(
         body: FutureBuilder(
@@ -53,7 +53,7 @@ class simsocial extends StatelessWidget {
               return SplashScreen();
             }
             
-            return Loading();
+            return SplashScreen();
           },
         ),
       ),

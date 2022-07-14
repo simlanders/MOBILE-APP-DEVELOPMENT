@@ -4,7 +4,7 @@
    <application
         android:label="simsocial"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/lc">
         <activity
             android:name=".MainActivity"
             android:exported="true"

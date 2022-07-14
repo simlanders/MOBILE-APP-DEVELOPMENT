@@ -51,7 +51,8 @@ class HomeFeedState extends State<HomeFeed> {
           ),
           Text('Post From Other Users'),
           Expanded(
-            child: StreamBuilder<List<Post_blueprint>>(
+            child: 
+            StreamBuilder<List<Post_blueprint>>(
               stream: db.posts,
               builder: (BuildContext context,
                   AsyncSnapshot<List<Post_blueprint>> snapshot) {
@@ -74,6 +75,7 @@ class HomeFeedState extends State<HomeFeed> {
                                 num_comments:posts[index].comments,
                                 num_likes: posts[index].likes,
                                 user_id: posts[index].creator,
+                                post_id: posts[index].post_ID,
                               ));
                 }
                 return Loading();

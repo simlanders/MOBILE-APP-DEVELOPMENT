@@ -20,15 +20,14 @@ class Profile extends StatelessWidget {
     if (_auth.currentUser!.uid == user_id) {
       isVisable = true;
     } 
-    getUser(context,isVisable);
+    getUser(context,isVisable,user_id);
 
     return SizedBox();
   }
 
-  Future<Future> getUser(context, isVisable) async {
+  Future<Future> getUser(context, isVisable,user_id) async {
     var user = await db.getUser(user_id);
-    print(user.display_name);
-
+    
     return Navigator.push(
         context,
         MaterialPageRoute(
@@ -38,6 +37,7 @@ class Profile extends StatelessWidget {
                   last: user.last_name,
                   bio: user.bio,
                   isVisable: isVisable ,
+                  user_id:user_id
                 )));
   }
 }

@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:simsocial/pages/ProfileCreation_page.dart';
 
+import '../Firebase_Back_in/database.dart';
+import '../objects/Post_blueprint.dart';
 import 'AppDrawer.dart';
+import 'Loading.dart';
+import 'PostView.dart';
 
 class ProfileView extends StatelessWidget {
   final String display_name;
@@ -11,15 +15,18 @@ class ProfileView extends StatelessWidget {
   final String last;
   final String bio;
   final bool isVisable;
+  final String user_id;
 
-  ProfileView({
-    required this.display_name,
-    required this.bio,
-    required this.first,
-    required this.last,
-    required this.isVisable
-  });
+  ProfileView(
+      {required this.display_name,
+      required this.bio,
+      required this.first,
+      required this.last,
+      required this.isVisable,
+      required this.user_id
+      });
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseService db = new DatabaseService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +99,44 @@ class ProfileView extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => ProfileCreationPage()));
                   },
-                ))
+                )),
+            Expanded(
+              child: StreamBuilder<List<Post_blueprint>>(
+                stream: db.posts,
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Post_blueprint>> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text("An error has occured!"),
+                    );
+                  } else if (snapshot.hasData) {
+                    var posts = snapshot.data ?? [];
+                    List my_posts = [];
+                    for (var element in posts) {
+                      if (element.creator == user_id) {
+                        print("===>");
+                        my_posts.add(element);
+                      }
+                    }
+                    return my_posts.isEmpty
+                        ? const Center(child: Text("NO Post"))
+                        : ListView.builder(
+                            itemCount: my_posts.length,
+                            itemBuilder: (BuildContext context, int index) =>
+                                new PostView(
+                                  user_name: my_posts[index].display_name,
+                                  post: my_posts[index].post,
+                                  time: my_posts[index].created,
+                                  num_comments: my_posts[index].comments,
+                                  num_likes: my_posts[index].likes,
+                                  user_id: my_posts[index].creator,
+                                  post_id: my_posts[index].post_ID,
+                                ));
+                  }
+                  return Loading();
+                },
+              ),
+            ),
           ],
         ));
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simsocial/pages/ProfileCreation_page.dart';
+import 'package:simsocial/pages/FPassword.dart';
 
 import '../Firebase_Back_in/database.dart';
 import 'EmailAuthentication_page.dart';
@@ -52,7 +53,21 @@ class SignInSelector extends StatelessWidget {
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             side: BorderSide(color: Colors.red))))),
-          ],
+            OutlinedButton(
+                onPressed: () {
+                  
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FPassword()));
+                  
+                },
+                child: Text("forgot passworl"),
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            side: BorderSide(color: Colors.red))))),
+          
+            ],
         ),
       ),
     );
