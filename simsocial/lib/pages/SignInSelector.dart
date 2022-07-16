@@ -60,7 +60,7 @@ class SignInSelector extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => FPassword()));
                   
                 },
-                child: Text("forgot passworl"),
+                child: Text("forgot password"),
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(

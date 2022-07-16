@@ -1,0 +1,28 @@
+ARN ROLE 
+arn:aws:iam::080181572945:instance-profile/EC2InstanceProfile
+bucket ARN
+arn:aws:s3:::reportbucket6947
+
+
+
+policy statement
+{
+  "Id": "Policy1657936966882",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1657936954723",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::reportbucket6947/*",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::080181572945:instance-profile/EC2InstanceProfile"
+        ]
+      }
+    }
+  ]
+}

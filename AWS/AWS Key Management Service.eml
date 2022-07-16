@@ -1,0 +1,154 @@
+Delivered-To: poetic.sim20@gmail.com
+Received: by 2002:a05:6358:9509:b0:af:b2ae:5b4a with SMTP id z9csp662148rwa;
+        Fri, 15 Jul 2022 18:24:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sb02WJ5VYMDyqKLlTzz1mzRqTlBkorF161CeMMH3pInBQbF+GLRxzTQxRdZlzm+sJX6XrM
+X-Received: by 2002:a37:ac17:0:b0:6b5:d5e4:61bc with SMTP id e23-20020a37ac17000000b006b5d5e461bcmr2222482qkm.707.1657934667170;
+        Fri, 15 Jul 2022 18:24:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1657934667; cv=none;
+        d=google.com; s=arc-20160816;
+        b=p4db8JbPXrm2NwfEU7f0ev03f7Jc+rWGs+BhxDvczsfCPucbmWDNc34lDTQaW8ZVlc
+         Xp/4ciYXpN4cC0tOUFN9sfxCBJZUCNZem6XCjdYs9l7IACcu5vn9OCVG/aVWTQH86RUv
+         mn0cM30mk1d7NtOd60X12c/0ra8nR/Kd/7C2uvb14Kr9UkZnKUYaBbEjMQlvFI0kSYQq
+         o4xYzJeDi/P2GtOKhS1PO6x9x1xnmH/6/nW1z/xxLSQlodyVOpOp7RWoRPCPv8Qpcl41
+         ahEBhiCIqEo6qJiK9JwJ4mPrQAyRCIdbkbmu/6sBnbur13OKOnj1XEZQ0be1Wd42wjZX
+         WLKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:content-transfer-encoding:mime-version:subject
+         :message-id:to:from:date:dkim-signature:dkim-signature;
+        bh=GUNt5Jy8J0II6PCSQsIT1ugSm56O+pN3u98pSNv6HyI=;
+        b=VLRAVXq87JiauKMQqWzzifqo+9MwFFy2VKCI+JqkZuOldwJWtym+Qp8n8izt5g8vKC
+         WBcVUNshUiqXrVXmJZUZub41H2aFmSXKjxQ5cWFtFQUv88Otp5AJRMX90aa4EPTUPaDi
+         DVbXuTeudeUvFGwm8B+tBJ5+MgsbY+3U1ENrD+t5K4Rfg5Ub8jf6OnSJUd45q3DWE7tx
+         tDPPYewCyjLA5zRWnno4JCW14LM5Ib3Vcn1Epe2A9gn5ZJAQnJh+h5SpDBD/+S1SgMVd
+         L0YIVC8Tn48nlpVMeHd4wtrAy9FZcVhHu/8hDoym7SJZK/3s4BhcYsaXTdSWsveSXEki
+         os2A==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@qwiklabs.com header.s=js3mo27o4tdgtywbuyipadslsvpwv4w3 header.b="GzeW/Vo0";
+       dkim=pass header.i=@amazonses.com header.s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw header.b=Owp2NExU;
+       spf=pass (google.com: domain of 01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@amazonses.com designates 54.240.9.99 as permitted sender) smtp.mailfrom=01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@amazonses.com
+Return-Path: <01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@amazonses.com>
+Received: from a9-99.smtp-out.amazonses.com (a9-99.smtp-out.amazonses.com. [54.240.9.99])
+        by mx.google.com with ESMTPS id ay39-20020a05620a17a700b006b547bcd79dsi3736749qkb.64.2022.07.15.18.24.26
+        for <poetic.sim20@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 15 Jul 2022 18:24:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@amazonses.com designates 54.240.9.99 as permitted sender) client-ip=54.240.9.99;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@qwiklabs.com header.s=js3mo27o4tdgtywbuyipadslsvpwv4w3 header.b="GzeW/Vo0";
+       dkim=pass header.i=@amazonses.com header.s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw header.b=Owp2NExU;
+       spf=pass (google.com: domain of 01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@amazonses.com designates 54.240.9.99 as permitted sender) smtp.mailfrom=01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@amazonses.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=js3mo27o4tdgtywbuyipadslsvpwv4w3; d=qwiklabs.com; t=1657934666;
+	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type:Content-Transfer-Encoding;
+	bh=GUNt5Jy8J0II6PCSQsIT1ugSm56O+pN3u98pSNv6HyI=;
+	b=GzeW/Vo0wggqiQvVThNNXJkr8DeCIfmv+Lt5ntu9Q9MExlqHuVr5PG/bV2O0Zwh+
+	nYytx3ewjj/y4sFhr7h0Z/8Bur1LVr1gQxhgxXt8JGTyQ7cRJPZ/G9Yz3TDFikGE7hr
+	V+hFaFwXD6a8Ps411Nh0FSeySqUacxZzrQYu1rvY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1657934666;
+	h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=GUNt5Jy8J0II6PCSQsIT1ugSm56O+pN3u98pSNv6HyI=;
+	b=Owp2NExUffAFx4sg9WyWAEb6+DZV5HPItrMIYMKegjFDMNNWMxsMtJmENGTT3rVK
+	KBnVQpSVma0vbbVnKE6gsKWPq/5+XP6oPeGBr5rnxt9qkxk5WRQhbDSrL3vWn1Yma8f
+	Pr1F6mF04eWSJtUhdvuU+0UHp5MyCi+f4sVNwllQ=
+Date: Sat, 16 Jul 2022 01:24:26 +0000
+From: noreply@qwiklabs.com
+To: poetic.sim20@gmail.com
+Message-ID: <01000182049b599a-bbc50bc9-3bad-4def-a752-14c58991b135-000000@email.amazonses.com>
+Subject: You finished a Qwiklab
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_62d213494f249_720c4dd01231f";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Feedback-ID: 1.us-east-1.kUmYnXz14cvSe3aRRnyu7h6J8T0F45Xax4hILd5cEww=:AmazonSES
+X-SES-Outgoing: 2022.07.16-54.240.9.99
+
+
+----==_mimepart_62d213494f249_720c4dd01231f
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi Poetic Sim,
+You have completed the lab Introduction to AWS Key Management Service.
+Your completion percentage was 100.0%.
+Get more information by selecting the
+Labs Taken tab from your dashboard in Qwiklabs, here: https://amazon.qwiklabs.com/?utm_campaign=dashboard&utm_medium=email&utm_source=endlab
+
+Thank you,
+Qwiklabs Support
+
+
+
+----==_mimepart_62d213494f249_720c4dd01231f
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>=0D
+<html style=3D"--game-color: #E52592; --classroom-color: #01877E; --exter=
+nal-course-color: #D56E0C; --certification-color: #C5221F; font-size: 100=
+%; --primary-color: #1a73e8; --accent-color: #f9ab00; --warn-color: #d930=
+25; --success-color: #1e8e3e; --hairline-color: #dadce0; --light-text-col=
+or: #5f6368; --primary-text-color: #202124; --surface-color: #fff; margin=
+: 0; padding: 0;">=0D
+<head>=0D
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">=
+=0D
+=0D
+=0D
+<style>body {=0D
+background: white; color: #202124; font-family: "Roboto", "Helvetica", sa=
+ns-serif; font-weight: 400; line-height: 1.5; padding: 1.5rem;=0D
+}=0D
+</style>=0D
+</head>=0D
+<body style=3D'color: #202124; font-family: "Roboto", "Helvetica", sans-s=
+erif; font-weight: 400; line-height: 1.5; margin: 0; padding: 1.5rem;' bg=
+color=3D"white">=0D
+<table align=3D"center" style=3D"border-collapse: collapse; border-spacin=
+g: 0; width: 100%; max-width: 550px; margin: 0 auto; padding: 0; border: =
+none;">=0D
+<tr style=3D"margin: 0; padding: 0;">=0D
+<td style=3D"margin: 0; padding: 0 0 12px;" align=3D"center"><div style=3D=
+"margin: 0; padding: 0;">Qwiklabs</div></td>=0D
+</tr>=0D
+<tr style=3D"margin: 0; padding: 0;">=0D
+<td style=3D"margin: 0; padding: 0 0 3rem;">=0D
+<p style=3D'font-family: "Roboto", "Helvetica", sans-serif; font-size: 16=
+px; font-weight: 400; line-height: 1.5; margin: 0; padding: 12px 0;'>Hi P=
+oetic Sim,</p> <p style=3D'font-family: "Roboto", "Helvetica", sans-serif=
+; font-size: 16px; font-weight: 400; line-height: 1.5; margin: 0; padding=
+: 12px 0;'>You completed the lab <em style=3D"margin: 0; padding: 0;">Int=
+roduction to AWS Key Management Service</em>. Your completion percentage =
+was 100.0%. Get more information by visiting your <a href=3D"https://amaz=
+on.qwiklabs.com/?utm_campaign=3Ddashboard&amp;utm_medium=3Demail&amp;utm_=
+source=3Dendlab" style=3D"color: var(--primary-color); margin: 0; padding=
+: 0;">dashboard</a>.</p>=0D
+<p style=3D'font-family: "Roboto", "Helvetica", sans-serif; font-size: 16=
+px; font-weight: 400; line-height: 1.5; margin: 0; padding: 12px 0;'>We w=
+ant to know what you thought about this lab. Please take our short survey=
+ <a href=3D"https://www.surveymonkey.com/r/FRT3SNZ?lab_title=3DIntroducti=
+on%20to%20AWS%20Key%20Management%20Service" style=3D"color: var(--primary=
+-color); margin: 0; padding: 0;">here</a>.</p>=0D
+<p style=3D'font-family: "Roboto", "Helvetica", sans-serif; font-size: 16=
+px; font-weight: 400; line-height: 1.5; margin: 0; padding: 12px 0;'>Than=
+k you,<br style=3D"margin: 0; padding: 0;">Qwiklabs Support</p>=0D
+=0D
+</td>=0D
+</tr>=0D
+<tr style=3D"margin: 0; padding: 0;">=0D
+<td style=3D"border-top-width: 2px; border-top-color: #DADCE0; border-top=
+-style: solid; color: #3C4043; font-size: 13px; margin: 0; padding: 1.5re=
+m 0 0;" align=3D"center">=0D
+=C2=A9 2022 Qwiklabs, Inc. 325 Main Street, Cambridge, MA 02142 USA.=0D
+You received this email to let you know about important changes to your Q=
+wiklabs account and services.=0D
+</td>=0D
+</tr>=0D
+</table>=0D
+</body>=0D
+</html>=0D
+
+----==_mimepart_62d213494f249_720c4dd01231f--

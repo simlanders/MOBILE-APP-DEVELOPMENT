@@ -10,14 +10,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(          // Remove the const from here
+    return MaterialApp(
+      // Remove the const from here
       title: 'Startup Name Generator',
-      theme: ThemeData(          // Add the 5 lines from here... 
+      theme: ThemeData(
+        // Add the 5 lines from here...
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.lightGreenAccent,
           foregroundColor: Colors.orangeAccent,
         ),
-      ),                         // ... to here.
+      ), // ... to here.
       home: const RandomWords(), // And add the const back here.
     );
   }
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
 class RandomWords extends StatefulWidget {
   // NEW
 
-const RandomWords({Key? key}) : super(key: key);
+  const RandomWords({Key? key}) : super(key: key);
 
   @override
   State<RandomWords> createState() => _RandomWordsState();
@@ -65,13 +67,15 @@ class _RandomWordsState extends State<RandomWords> {
       ), // ...to here.
     );
   }
+
   final _suggestions = <WordPair>[];
   final _saved = <WordPair>{}; // NEW
   final _biggerFont = TextStyle(fontSize: 18);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(   // NEW from here ...
-      appBar: AppBar(  
+    return Scaffold(
+      // NEW from here ...
+      appBar: AppBar(
         title: const Text('Startup Name Generator'),
         actions: [
           IconButton(
@@ -81,39 +85,40 @@ class _RandomWordsState extends State<RandomWords> {
           ),
         ],
       ),
-    body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          if (i.isOdd) return const Divider();
+      body: ListView.builder(
+          padding: const EdgeInsets.all(16.0),
+          itemBuilder: (context, i) {
+            if (i.isOdd) return const Divider();
 
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
+            final index = i ~/ 2; /*3*/
+            if (index >= _suggestions.length) {
+              _suggestions.addAll(generateWordPairs().take(10));
+            }
 
-          final alreadySaved = _saved.contains(_suggestions[index]); // NEW
-          return ListTile(
-            title: Text(
-              _suggestions[index].asPascalCase,
-              style: _biggerFont,
-            ),
-            trailing: Icon(
-              // NEW from here ...
-              alreadySaved ? Icons.favorite : Icons.favorite_border,
-              color: alreadySaved ? Colors.red : null,
-              semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
-            ),
-            onTap: () {
-              // NEW from here ...
-              setState(() {
-                if (alreadySaved) {
-                  _saved.remove(_suggestions[index]);
-                } else {
-                  _saved.add(_suggestions[index]);
-                }
-              });
-            },
-          );
-    }),);
+            final alreadySaved = _saved.contains(_suggestions[index]); // NEW
+              return ListTile(
+              title: Text(
+                _suggestions[index].asPascalCase,
+                style: _biggerFont,
+              ),
+              trailing: Icon(
+                // NEW from here ...
+                alreadySaved ? Icons.favorite : Icons.favorite_border,
+                color: alreadySaved ? Colors.red : null,
+                semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+              ),
+              onTap: () {
+                // NEW from here ...
+                setState(() {
+                  if (alreadySaved) {
+                    _saved.remove(_suggestions[index]);
+                  } else {
+                    _saved.add(_suggestions[index]);
+                  }
+                });
+              },
+            );
+          }),
+    );
   }
 }

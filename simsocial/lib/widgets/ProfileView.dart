@@ -82,7 +82,7 @@ class ProfileView extends StatelessWidget {
               ),
             ),
             Text(
-              " Just getting things set up",
+              " Posts ",
               style: TextStyle(fontSize: 25, color: Colors.black),
             ),
             Visibility(
