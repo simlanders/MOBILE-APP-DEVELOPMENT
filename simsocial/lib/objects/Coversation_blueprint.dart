@@ -1,7 +1,6 @@
 import 'dart:collection';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+
 
 class Coversation_blueprint {
   //The name the user displays to other users
