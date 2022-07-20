@@ -46,6 +46,7 @@ class Selector extends StatelessWidget {
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                             side: BorderSide(color: Colors.red))))),
+          
           ],
         ),
       ),

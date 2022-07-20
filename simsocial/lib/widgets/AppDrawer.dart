@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:simsocial/objects/Conversation_blueprint.dart';
 import 'package:simsocial/pages/Homefeed_page.dart';
 import 'package:simsocial/pages/Profile.dart';
+import 'package:simsocial/pages/Subscriptions_page.dart';
 
 import '../pages/DM.dart';
 
@@ -45,7 +47,7 @@ class AppDrawer extends StatelessWidget {
             ),
             title: const Text('DM'),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> DM()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> Subscriptions_page()));
             },
           ),
         ],

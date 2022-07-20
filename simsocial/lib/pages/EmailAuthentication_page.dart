@@ -24,10 +24,11 @@ class _Auth_PageState extends State<EmailAuthentication_page> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         appBar: AppBar(
           title: const Text("Log In"),
-          titleSpacing: 150,
+          titleSpacing: 10,
         ),
         body: loading
             ? Loading()
@@ -91,6 +92,10 @@ class _Auth_PageState extends State<EmailAuthentication_page> {
                         },
                         child: Text("LOGIN")),
                    ],
-                )));
+                )
+                )
+                );
   }
+
+  
 }

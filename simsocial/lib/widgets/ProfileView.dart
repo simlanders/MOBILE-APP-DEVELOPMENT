@@ -114,7 +114,7 @@ class ProfileView extends StatelessWidget {
                     List my_posts = [];
                     for (var element in posts) {
                       if (element.creator == user_id) {
-                        print("===>");
+                        
                         my_posts.add(element);
                       }
                     }

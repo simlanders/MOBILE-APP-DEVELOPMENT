@@ -42,10 +42,9 @@ class _PostState extends State<PostView> {
    
     
      db.comments.listen((value) {
-        print("db.comments====>");
+        
       for (var c in value) {
-        print(c.post_ID);
-        print(widget.post_id);
+        
         if (c.post_ID == widget.post_id) {
           count = count + 1;
         }
@@ -59,7 +58,7 @@ class _PostState extends State<PostView> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.user_name);
+    
 
     return Container(
       child: Card(
@@ -142,7 +141,7 @@ class _PostState extends State<PostView> {
 
   Future<Future> gotToPost(context) async {
     var user = await db.getUser(widget.user_id);
-    print(user.display_name);
+    
 
     return Navigator.push(
         context,
@@ -160,7 +159,7 @@ class _PostState extends State<PostView> {
 
   Future<Future> getUser(context) async {
     var user = await db.getUser(widget.user_id);
-    print(user.display_name);
+    
 
     return Navigator.push(
         context,
@@ -173,9 +172,7 @@ class _PostState extends State<PostView> {
   Future<Future> getPost(context) async {
     var post = await db.getPost(widget.post_id);
     var likes = int.parse(post.likes);
-    print("===>");
-    print(likes);
-    print(likes + 1);
+   
 
     return Navigator.push(
         context,
@@ -188,10 +185,11 @@ class _PostState extends State<PostView> {
   void addlikes() async {
     var post = await db.getPost(widget.post_id);
     var likes = int.parse(post.likes);
-    print("old likes" + post.likes);
+    
     likes = likes + 1;
     var slikes = likes.toString();
-    print("new likes" + slikes);
+    
     db.addlikes(widget.post_id, slikes);
   }
+
 }

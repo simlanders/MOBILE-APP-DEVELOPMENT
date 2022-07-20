@@ -4,7 +4,7 @@ import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:simsocial/widgets/AppDrawer.dart';
 import 'package:simsocial/widgets/ProfileView.dart';
 
-import 'package:simsocial/objects/Comment_blueprint';
+import 'package:simsocial/objects/Comment_blueprint.dart';
 
 import '../Firebase_Back_in/database.dart';
 import '../widgets/Loading.dart';
@@ -48,25 +48,25 @@ class CommentPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-              TextFormField(
+            TextFormField(
               controller: comment,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Reply to post',
               ),
             ),
-          
-          TextButton(
-            onPressed: (() {
-              db
-                  .addcomment(_auth.currentUser!.displayName, comment.text, post_id,
-                  _auth.currentUser!.uid)
-                  .then((value) => comment.clear())
-                  .whenComplete(() => print(db.posts.length.toString()));
-            }),
-            child: Text('comment'),
-          ),
-          
+
+            TextButton(
+              onPressed: (() {
+                db
+                    .addcomment(_auth.currentUser!.displayName, comment.text,
+                        post_id, _auth.currentUser!.uid)
+                    .then((value) => comment.clear())
+                    .whenComplete(() => print(db.posts.length.toString()));
+              }),
+              child: Text('comment'),
+            ),
+
             //Post View
             Container(
               child: Card(
@@ -169,10 +169,11 @@ class CommentPage extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) =>
                                 ListTile(
                               title: Text(my_comments[index].display_name),
-                              subtitle: SizedBox(child: ListTile( 
-                                title: Text(my_comments[index].comment),
+                              subtitle: SizedBox(
+                                child: ListTile(
+                                  title: Text(my_comments[index].comment),
                                 ),
-                                ),
+                              ),
                             ),
                           );
                   }

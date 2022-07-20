@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:async';
 
@@ -5,37 +9,63 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simsocial/objects/Post_blueprint.dart';
 import 'package:simsocial/objects/User_blueprint.dart';
 
-import '../objects/Comment_blueprint';
+import '../objects/Comment_blueprint.dart';
+import '../objects/Conversation_blueprint.dart';
+import '../objects/SMS_blueprint.dart';
 
 class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var uuid = Uuid();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static Map<String, User_blueprint> userMap = <String, User_blueprint>{};
 
-  final StreamController<Map<String, User_blueprint>> _usersController =
-      StreamController<Map<String, User_blueprint>>();
+  final StreamController<List<User_blueprint>> _usersController =
+      StreamController<List<User_blueprint>>();
 
   final StreamController<List<Post_blueprint>> _postsController =
       StreamController<List<Post_blueprint>>();
 
+  final StreamController<List<SMS_blueprint>> _messagesController =
+      StreamController<List<SMS_blueprint>>();
+
   final StreamController<List<Comment_blueprint>> _commentsController =
       StreamController<List<Comment_blueprint>>();
+
+  final StreamController<List<Conversation_blueprint>> _conversationController =
+      StreamController<List<Conversation_blueprint>>();
 
   DatabaseService() {
     _firestore.collection('users').snapshots().listen(_usersUpdated);
     _firestore.collection('posts').snapshots().listen(_postsUpdated);
     _firestore.collection('comments').snapshots().listen(_commentsUpdated);
+    _firestore
+        .collection('conversations')
+        //.where('users', arrayContains: [_auth.currentUser!.uid])
+        .snapshots()
+        .listen(_conversationsUpdated);
+  }
+  DatabaseService.getMessages(String Thread_ID) {
+    _firestore
+        .collection('messages')
+        .where('to', isEqualTo: Thread_ID)
+        .snapshots()
+        .listen(_messagesUpdated);
   }
 
-  Stream<Map<String, User_blueprint>> get users => _usersController.stream;
+  Stream<List<User_blueprint>> get users => _usersController.stream;
 
   Stream<List<Post_blueprint>> get posts => _postsController.stream;
 
   Stream<List<Comment_blueprint>> get comments => _commentsController.stream;
 
+  Stream<List<Conversation_blueprint>> get conversations =>
+      _conversationController.stream;
+
+  Stream<List<SMS_blueprint>> get messages => _messagesController.stream;
+
   void _usersUpdated(QuerySnapshot<Map<String, dynamic>> snapshot) {
-    var users = _getUsersFromSnapshot(snapshot);
+    List<User_blueprint> users = _getUsersFromSnapshot(snapshot);
     _usersController.add(users);
   }
 
@@ -44,19 +74,33 @@ class DatabaseService {
     _postsController.add(posts);
   }
 
+  void _conversationsUpdated(QuerySnapshot<Map<String, dynamic>> snapshot) {
+    //print("line 77 db convo updated " + snapshot.size.toString());
+    List<Conversation_blueprint> conversations =
+        _getConversationsFromSnapshot(snapshot);
+    _conversationController.add(conversations);
+  }
+
+  void _messagesUpdated(QuerySnapshot<Map<String, dynamic>> snapshot) {
+    List<SMS_blueprint> messages = _getMessagesFromSnapshot(snapshot);
+    _messagesController.add(messages);
+  }
+
   void _commentsUpdated(QuerySnapshot<Map<String, dynamic>> snapshot) {
     List<Comment_blueprint> comments = _getCommentsFromSnapshot(snapshot);
     _commentsController.add(comments);
   }
 
-  Map<String, User_blueprint> _getUsersFromSnapshot(
+  List<User_blueprint> _getUsersFromSnapshot(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
+    List<User_blueprint> users = [];
+
     for (var element in snapshot.docs) {
       User_blueprint user = User_blueprint.fromMap(element.id, element.data());
-      userMap[user.id] = user;
+      users.add(user);
     }
 
-    return userMap;
+    return users;
   }
 
   List<Post_blueprint> _getPostsFromSnapshot(
@@ -72,16 +116,45 @@ class DatabaseService {
     return posts;
   }
 
+  List<SMS_blueprint> _getMessagesFromSnapshot(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    List<SMS_blueprint> messages = [];
+
+    for (var element in snapshot.docs) {
+      SMS_blueprint post = SMS_blueprint.fromMap(element.id, element.data());
+
+      messages.add(post);
+    }
+    messages.sort((a, b) => a.time.compareTo(b.time));
+    return messages;
+  }
+
+  List<Conversation_blueprint> _getConversationsFromSnapshot(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    List<Conversation_blueprint> conversations = [];
+    //print("here db get convo from snapshot L134 " + snapshot.size.toString());
+    for (var element in snapshot.docs) {
+      //print("Inside for loop");
+      Conversation_blueprint conversation =
+          Conversation_blueprint.fromMap(element.id, element.data());
+          final List<String> split_users = element.data()['users'].split(' ');
+      for (var e in split_users) {
+        conversation.users.add(e);
+      }
+      //print(conversation.toString());
+      conversations.add(conversation);
+    }
+
+    return conversations;
+  }
+
   List<Comment_blueprint> _getCommentsFromSnapshot(
       QuerySnapshot<Map<String, dynamic>> snapshot) {
     List<Comment_blueprint> comments = [];
-
     for (var element in snapshot.docs) {
-    
-
       Comment_blueprint comment =
           Comment_blueprint.fromMap(element.id, element.data());
-      print(comment.display_name);
+
       comments.add(comment);
     }
     comments.sort((a, b) => a.created.compareTo(b.created));
@@ -167,6 +240,56 @@ class DatabaseService {
         'creator': creator,
         'created': now,
       }).whenComplete(() => print("===============>>" + "Complete"));
+    } on Exception catch (e) {
+      print(e.toString() + "<================");
+    }
+
+    return;
+  }
+
+  Future<void> addNewMessage(
+    Set<String> users,
+    String user_id,
+    String message,
+  ) async {
+    print("db L255 addNewconvo===>Users: " + users.toString());
+    String now = DateTime.now().toString();
+    var rng = new Random();
+    var code = (rng.nextInt(900000) + 100000).toString();
+    try {
+      print("conversations");
+      await _firestore
+          .collection('conversations')
+          .add({
+            'users': users.toString(),
+            'thread_ID': code
+            }).whenComplete(
+              () => addNewMessage2(
+                    code,
+                    message,
+                    now,
+                    user_id,
+                  ));
+    } on Exception catch (e) {
+      print(e.toString() + "<================");
+    }
+
+    return;
+  }
+
+  Future<void> addNewMessage2(
+      String code, String message, String now, String user_id) async {
+    print("db L282 addNewMessage===>Code: " + code);
+
+    try {
+      print("messages");
+
+      await _firestore.collection('messages').add({
+        'to': code,
+        'from': user_id,
+        'message': message,
+        'time': now,
+      }).whenComplete(() => print("===============>>" + "Complete message"));
     } on Exception catch (e) {
       print(e.toString() + "<================");
     }
