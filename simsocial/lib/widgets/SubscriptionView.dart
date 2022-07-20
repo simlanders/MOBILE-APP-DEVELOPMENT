@@ -11,16 +11,19 @@ import 'package:simsocial/widgets/ProfileView.dart';
 
 import '../Firebase_Back_in/database.dart';
 import '../pages/Profile.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SubscriptionView extends StatefulWidget {
   final String conversation_ID;
   final String thread_ID;
   String user;
+  final String id;
 
   SubscriptionView({
     required this.conversation_ID,
     required this.thread_ID,
     required this.user,
+    required this.id,
   });
   @override
   State<SubscriptionView> createState() => _SubscriptionViewState();
@@ -71,18 +74,31 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                     children: <Widget>[
                       ProfilePicture(
                         name: widget.thread_ID,
-                        radius: 15,
+                        radius: 25,
                         fontsize: 10,
                         random: true,
                       ),
                       const SizedBox(width: 0),
-                      Text(widget.user),
+                      Text(widget.user,
+                      style: TextStyle(fontFamily: 'Lato', fontSize: 17, color: Colors.red),),
+                      
                     ],
                   ),
+                  
                 ),
               ],
             ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: SizedBox(
+                width: 500,
+                height: 50,
+                child: Text("Message ID: "+widget.thread_ID,
+                            style: TextStyle(fontFamily: 'Lato-Black', fontSize: 17, color: Colors.blue),),
+              ),
+            ),
           ],
+          
         ),
       ),
     );

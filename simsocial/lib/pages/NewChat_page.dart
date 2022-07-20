@@ -148,6 +148,8 @@ class _NewChat_PageState extends State<NewChat_page> {
                     },
                     child: Text("SEND")),
               ],
-            )));
+            )
+            )
+            );
   }
 }

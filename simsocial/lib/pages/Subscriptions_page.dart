@@ -42,7 +42,8 @@ class SubscriptionsState extends State<Subscriptions_page> {
           title: const Text('Subscriptions'),
         ),
         body: Column(children: [
-          Text('Messages'),
+          Text('Chat Groups',
+          style: TextStyle(fontFamily: 'Lato-Bold', fontSize: 17, color: Colors.black)),
           Expanded(
             child: StreamBuilder<List<Conversation_blueprint>>(
               stream: db.conversations,
@@ -67,7 +68,7 @@ class SubscriptionsState extends State<Subscriptions_page> {
                                 conversation_ID:
                                     conversations[index].conversation_ID,
                                 thread_ID: conversations[index].thread_ID,
-                                user: user_name);
+                                user: user_name,id:user_name);
                           });
                 }
                 return Loading();
